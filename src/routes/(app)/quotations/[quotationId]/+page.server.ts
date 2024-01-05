@@ -34,12 +34,15 @@ export const load: PageServerLoad = async ({ locals, params, request }) => {
 		form,
 		userId: session.user.userId,
 		username: session.user.username,
+		// name: session.data.name,
+		// email: session.data.email,
+		// userrole: session.data.userrole,
+		// usercompanyidentifier: session.data.usercompanyidentifier,
 
 		dbcustomers: await database.customer.findMany(),
 		dbmaterials: await database.material.findMany(),
 		dbcolorsystems: await database.colorSystem.findMany(),
 		dbsurfacetreatments: await database.surfaceTreatment.findMany(),
-		dbvaluestreams: await database.valueStream.findMany(),
 		quotations: await database.quotation.findMany(),
 	}
 };

@@ -25,6 +25,10 @@ declare global {
 		type Auth = import("$lib/server/lucia").Auth;
 		type DatabaseUserAttributes = {
 			username: string;
+			name: string;
+			email: string;
+			// userrole: string;
+			company_identifier: string;
 		};
 		// type DatabaseSessionAttributes = {};
 		type DatabaseSessionAttributes = Record<string, never>;

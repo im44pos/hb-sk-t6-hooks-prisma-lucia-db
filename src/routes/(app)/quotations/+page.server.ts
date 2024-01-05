@@ -3,15 +3,16 @@ import { writeFileSync } from 'fs';
 import { auth } from "$lib/server/lucia";
 import { error, fail, redirect } from "@sveltejs/kit"
 import { database } from "$lib/server/database"
-// import { z } from 'zod'
+
 import { setError, superValidate } from "sveltekit-superforms/server"
 
-import type { Actions, PageServerLoad } from "./$types"
+// import type { Actions, PageServerLoad } from "./$types"
+import type { Actions, PageServerLoad } from "../../$types"
 
 import { quotationSchema } from "$lib/zod/schemas";
 
 export const load: PageServerLoad = async ({ locals, request }) => {
-	// console.log("PageServerLoad @ src/routes/+page.server.ts")
+	// console.log("PageServerLoad @ src/routes/(app)/quotations/+page.server.ts")
 	const session = await locals.auth.validate();
 	// console.log("session :", session)
 	// console.log("session.state :", session?.state)
@@ -28,12 +29,11 @@ export const load: PageServerLoad = async ({ locals, request }) => {
 		form,
 		userId: session.user.userId,
 		username: session.user.username,
+		// name: session.data.name,
+		// email: session.data.email,
+		// userrole: session.data.userrole,
+		// usercompanyidentifier: session.data.usercompanyidentifier,
 
-		dbcustomers: await database.customer.findMany(),
-		dbmaterials: await database.material.findMany(),
-		dbcolorsystems: await database.colorSystem.findMany(),
-		dbsurfacetreatments: await database.surfaceTreatment.findMany(),
-		dbvaluestreams: await database.valueStream.findMany(),
 		quotations: await database.quotation.findMany(),
 	}
 };
@@ -54,7 +54,7 @@ export const load: PageServerLoad = async ({ locals, request }) => {
 
 export const actions: Actions = {
 	logout: async ({ locals }) => {
-		// console.log("Actions @ src/routes/+page.server.ts")
+		// console.log("Actions @ src/routes/(app)/quotations/+page.server.ts")
 		const session = await locals.auth.validate();
 		if (!session) return fail(400);
 		await auth.invalidateSession(session.sessionId); // invalidate session

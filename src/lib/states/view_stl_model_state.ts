@@ -15,8 +15,11 @@ export const bbox_opacity = writable(0.315)
 // // General_Demo: Impeller
 export const object_node_name = 'Ventilatorstl'
 export const object_model_name = '/models/demo_models/Impeller.glb'
-// export const stl_object_model_name = '/models/demo_models/Impeller.stl'
-export const stl_object_model_name = 'D:/ServerFolder/qwision/demo/q000000/Impeller.stl'
+export const stl_object_model_name = '/models/demo_models/Impeller.stl'
+// // CAN'T LOAD FROM DISK LOCATION ! ! ! REQUIRE A URL FILE LOCATION.
+// export const stl_object_model_name = 'D:/ServerFolder/qwision/demo/q000000/Impeller.stl'
+// export const stl_object_model_name = 'D:\\ServerFolder\\qwision\\demo\\q000000\\Impeller.stl'
+
 // export const stl_object_model_name = '/models/demo_models/x30_y90_z10_mm.stl'
 
 // // Plate_Ax demo

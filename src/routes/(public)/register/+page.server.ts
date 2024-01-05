@@ -1,16 +1,17 @@
 import { auth } from "$lib/server/lucia";
 import { LuciaError } from "lucia";
-import { fail, redirect } from '@sveltejs/kit';
+import { error, fail, redirect } from '@sveltejs/kit';
+import { database } from "$lib/server/database"
 
 import { setError, superValidate } from "sveltekit-superforms/server"
 
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions, PageServerLoad } from '../../$types';
 
 import { registerSchema } from "$lib/zod/schemas";
 
 
 export const load: PageServerLoad = async ({ locals, request }) => {
-    // console.log("PageServerLoad @ src/routes/register/+page.server.ts")
+    // console.log("PageServerLoad @ src/routes/(public)/register/+page.server.ts")
     const session = await locals.auth.validate();
     if (session) {
         throw redirect(302, "/")
@@ -18,18 +19,27 @@ export const load: PageServerLoad = async ({ locals, request }) => {
 
     const form = await superValidate(request, registerSchema)
 
-    return {form}; // ???
+    return {
+        form,
+        // userId: session.user.userId,
+		// username: session.user.username,
+		// name: session.data.name,
+		// email: session.data.email,
+		// userrole: session.data.userrole,
+		// usercompanyidentifier: session.data.usercompanyidentifier,
+
+		dbroles: await database.role.findMany(),
+    }; // ???
 };
 
 
 export const actions: Actions = {
     default: async ({ request, locals }) => {
-        // console.log("Actions @ src/routes/register/+page.server.ts")
-        console.log(1)
+        console.log("Actions @ src/routes/register/+page.server.ts")
         const formData = await request.formData();
         // const password = formData.get('password')
         const form = await superValidate(formData, registerSchema);
-        console.log(form)
+        console.log("form : " + form)
 
         if (!form.valid) {
 			return fail(400, {
@@ -56,6 +66,10 @@ export const actions: Actions = {
                 },
                 attributes: {
                     username: form.data.username,
+                    name: form.data.name,
+                    email: form.data.email,
+                    // userrole: form.data.userrole,
+                    company_identifier: form.data.company_identifier,
                 }
             });
             // // DO NOT AUTOMATICALLY LOGIN AFTER CREATING AN ACCOUNT ! ! !

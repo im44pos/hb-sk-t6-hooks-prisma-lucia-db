@@ -25,65 +25,68 @@ datasource db {
 
 // model Article {
 //   id                      Int @id @default(autoincrement())
-//   // createdAt              DateTime @default(now()) // // Joy of Code, PostgreSQL
-//   // updatedAt              DateTime @updatedAt // // Joy of Code, PostgreSQL
+//   // createdAt               DateTime @default(now()) // // Joy of Code, PostgreSQL
+//   // updatedAt               DateTime @updatedAt // // Joy of Code, PostgreSQL
 //   title                   String
 //   content                 String? // "?" indicates that this is an optional input field
-//   // slug                   String @unique // // Joy of Code
-//   // published              Boolean @default(false) // // Joy of Code
+//   // slug                    String @unique // // Joy of Code
+//   // published               Boolean @default(false) // // Joy of Code
 // }
 
 model Notification {
-  id                      Int @id @default(autoincrement())
-  // createdAt              DateTime @default(now()) // // Joy of Code, PostgreSQL
-  // updatedAt              DateTime @updatedAt // // Joy of Code, PostgreSQL
-  title                   String
-  content                 String?   // "?" indicates that this is an optional input field
-  slug                    String    @unique // // Joy of Code
-  published               Boolean   @default(false) // // Joy of Code
+  id                          Int @id @default(autoincrement())
+  // createdAt                   DateTime @default(now()) // // Joy of Code, PostgreSQL
+  // updatedAt                   DateTime @updatedAt // // Joy of Code, PostgreSQL
+  title                       String
+  content                     String?   // "?" indicates that this is an optional input field
+  // slug                        String    @unique // // Joy of Code
+  // published                   Boolean   @default(false) // // Joy of Code
 }
 
 // // User to be connected to Company !!!
 model User {
-  id                      String      @id @default(uuid()) // "uuid" requires the "String" type
-  // createdAt              DateTime    @default((now())) // // Joy of Code, PostgreSQL
-  // updatedAt              DateTime    @updatedAt // // Joy of Code, PostgreSQL
-  company_id              String
-  username                String      @unique
-  email                   String      @unique
-  name                    String?
-  role_id                 String       
-  auth_session            Session[]
-  key                     Key[]
-  company                 Company     @relation(references: [id], fields: [company_id], onDelete: Cascade)
-  role                    Role        @relation(references: [id], fields: [role_id], onDelete: Cascade)
-  @@index([company_id, role_id])
+  id                          String      @id @default(uuid()) // "uuid" requires the "String" type
+  // createdAt                   DateTime    @default((now())) // // Joy of Code, PostgreSQL
+  // updatedAt                   DateTime    @updatedAt // // Joy of Code, PostgreSQL
+  company_identifier          String
+  role_id                     String      @default("Sales")
+  name                        String?
+  username                    String      @unique
+  email                       String      @unique
+  auth_session                Session[]
+  key                         Key[]
+  quotation                   Quotation[]
+  quotationitem               QuotationItem[]
+  company                     Company     @relation(references: [company_identifier], fields: [company_identifier], onDelete: Cascade)
+  // role                        Role        @relation(references: [id], fields: [role_id], onDelete: Cascade)
+  // @@index([company_id, role_id])
+  @@index([company_identifier])
   @@map("user")
 }
 
 model Role {
-  id                      String      @id @default(uuid())
-  role_name               String      // // sales, planner, production, purchase, director
-  user                    User[]
+  id                          String      @id @default(uuid())
+  role_name                   String      // // sales, planner, production, purchase, director
+  // user                        User[]
   @@map("role")
 }
 
 model Session {
-  // id                      String    @id @unique
-  id                      String      @id @default(uuid()) // // Joy of Code ? ? ?
-  user_id                 String
-  active_expires          BigInt
-  idle_expires            BigInt
-  user                    User        @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  // id                          String    @id @unique
+  id                          String      @id @default(uuid()) // // Joy of Code ? ? ?
+  user_id                     String
+  active_expires              BigInt
+  idle_expires                BigInt
+  user                        User        @relation(references: [id], fields: [user_id], onDelete: Cascade)
   @@index([user_id])
   @@map("session")
 }
 
 model Key {
-  id                      String    @id @default(uuid())
-  hashed_password         String?
-  user_id                 String
-  user                    User      @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  id                          String    @id @default(uuid())
+  hashed_password             String?
+  user_id                     String
+  user                        User      @relation(references: [id], fields: [user_id], onDelete: Cascade)
   @@index([user_id])
   @@map("key")
 }
@@ -104,18 +107,19 @@ model Company {
   // createdAt                 DateTime  @default((now())) // // Joy of Code, PostgreSQL
   // updatedAt                 DateTime  @updatedAt // // Joy of Code, PostgreSQL
   company_name              String
-  company_identifier        String    // // 8-digit number "08mmdd.." NOTE: if "8" increases on yearly basis with decimal numbering then, from 2116 require 9-digit until 3016
+  company_identifier        String    @unique   // // 8-digit number "08mmdd.." NOTE: if "8" increases on yearly basis with decimal numbering then, from 2116 require 9-digit until 3016
   company_city              String
   company_country           String    //  State
   company_county            String?   //  Provincie / Land
   company_continent         String?
   user                      User[]    // Relation to be configured !!!
   surfacetreatment          SurfaceTreatment[]
+  process                   Process[]
   productionline            ProductionLine[]
   equipment                 Equipment[]
   customer                  Customer[]
   quotation                 Quotation[]
-  item                      Item[]
+  quotationitem             QuotationItem[]
   @@map("company")
 }
 
@@ -175,7 +179,7 @@ model Customer {
   customer_county             String?     //  Provincie / Land
   customer_continent          String?
   quotation                   Quotation[]
-  item                        Item[]
+  quotationitem               QuotationItem[]
   company                     Company     @relation(references: [id], fields: [company_id], onDelete: Cascade)
   @@index([company_id])
   @@map("customer")
@@ -186,41 +190,45 @@ model Quotation {
   // createdAt                  DateTime    @default((now())) // // Joy of Code, PostgreSQL
   // updatedAt                  DateTime    @updatedAt // // Joy of Code, PostgreSQL
   company_id                  String
+  user_id                     String
   customer_id                 String
   quotation_identifier        String      // Quotation "number"
   quotation_description       String
+  quotationitem               QuotationItem[]
   company                     Company     @relation(references: [id], fields: [company_id], onDelete: Cascade)
+  user                        User        @relation(references: [id], fields: [user_id], onDelete: Cascade)
   customer                    Customer    @relation(references: [id], fields: [customer_id], onDelete: Cascade)
-  @@index([company_id, customer_id])
+  @@index([company_id, user_id, customer_id])
   @@map("quotation")
 }
 
-model Item {
-  id                          String    @id @default(uuid())
-  // createdAt                  DateTime    @default((now())) // // Joy of Code, PostgreSQL
-  // updatedAt                  DateTime    @updatedAt // // Joy of Code, PostgreSQL
-  company_id                  String
-  customer_id                 String
-  quotation_item_identifier   String
-  quotation_item_quantity     Int
-  part_identifier             String
-  material_id                 String
-  color_system_id             String
-  end_color_identifier        String
-  // surface_treatment           String
-  // process_5                   Boolean?
-  // process_4                   Boolean?
-  // process_3                   Boolean?
-  // process_2                   Boolean?
-  // process_1                   Boolean?
-  model_3d                    String // .p21
-  drawing_2d                  String? // .pdf
-  surfacetreatment            SurfaceTreatment[]
-  company                     Company             @relation(references: [id], fields: [company_id], onDelete: Cascade)
-  customer                    Customer            @relation(references: [id], fields: [customer_id], onDelete: Cascade)
-  material                    Material            @relation(references: [id], fields: [material_id], onDelete: Cascade)
-  colorsystem                 ColorSystem         @relation(references: [id], fields: [color_system_id], onDelete: Cascade)
-  @@index([company_id, customer_id, material_id, color_system_id])
+model QuotationItem {
+  id                              String    @id @default(uuid())
+  // createdAt                      DateTime    @default((now())) // // Joy of Code, PostgreSQL
+  // updatedAt                      DateTime    @updatedAt // // Joy of Code, PostgreSQL
+  company_id                      String
+  user_id                         String
+  quotation_id                    String
+  customer_id                     String
+  quotation_item_identifier       String
+  quotation_item_description      String
+  quotation_item_quantity         Int
+  part_identifier                 String
+  part_description                String
+  material_id                     String
+  color_system_id                 String
+  end_color_identifier            String
+  surface_treatment_id            String
+  model_3d                        String              // .p21
+  drawing_2d                      String?             // .pdf
+  company                         Company             @relation(references: [id], fields: [company_id], onDelete: Cascade)
+  user                            User                @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  quotation                       Quotation           @relation(references: [id], fields: [quotation_id], onDelete: Cascade)
+  customer                        Customer            @relation(references: [id], fields: [customer_id], onDelete: Cascade)
+  material                        Material            @relation(references: [id], fields: [material_id], onDelete: Cascade)
+  colorsystem                     ColorSystem         @relation(references: [id], fields: [color_system_id], onDelete: Cascade)
+  surfacetreatment                SurfaceTreatment    @relation(references: [id], fields: [surface_treatment_id], onDelete: Cascade)
+  @@index([company_id, user_id, quotation_id, customer_id, material_id, color_system_id, surface_treatment_id])
   @@map("item")
 }
 
@@ -230,9 +238,9 @@ model Material {
   // updatedAt              DateTime    @updatedAt // // Joy of Code, PostgreSQL
   material_name               String    // // aluminium, copper, steel, stainless steel, PA, PP, PVC
   material_density            Float     // //  8000 >  8 >       8 >       0.008       (Int?) Unit: [kg/m^3]
-  // REMOVE material_density_unit FROM DATABASE TABLE (or set default value)
-  material_density_unit       String    // // [kg/m3], [kg/dm3], [gr/cm3], [gr/mm3]    (default![kg/m3])
-  item                        Item[]
+  // // REMOVE material_density_unit FROM DATABASE TABLE (or set default value)
+  // material_density_unit       String    // // [kg/m3], [kg/dm3], [gr/cm3], [gr/mm3]    (default![kg/m3])
+  quotationitem               QuotationItem[]
   @@map("material")
 }
 
@@ -241,7 +249,7 @@ model ColorSystem {
   // createdAt              DateTime    @default((now())) // // Joy of Code, PostgreSQL
   // updatedAt              DateTime    @updatedAt // // Joy of Code, PostgreSQL
   colorsystem_name            String    // NCS, RAL, CIELAB, PANTONE
-  item                        Item[]
+  quotationitem               QuotationItem[]
   @@map("colorsystem")
 }                                       // RGB, HEX, HSL, HSV, 
 
@@ -272,15 +280,31 @@ model SurfaceTreatment {
   // createdAt              DateTime    @default((now())) // // Joy of Code, PostgreSQL
   // updatedAt              DateTime    @updatedAt // // Joy of Code, PostgreSQL
   company_id                  String
-  item_id                     String
+  // item_id                     String     # ### TO BE DELETED
   surface_treatment_name      String      //  KTL, Powder Coat, Wet Spray Paint, 
   surface_treatment_type      String      //  powdercoat, wet spray paint, electrolytic, chemical
+  process                     Process[]
+  quotationitem               QuotationItem[]
   company                     Company     @relation(references: [id], fields: [company_id], onDelete: Cascade)
-  item                        Item        @relation(references: [id], fields: [item_id], onDelete: Cascade)
-  @@index([company_id, item_id])
+  // item                        Item        @relation(references: [id], fields: [item_id], onDelete: Cascade)   # ### TO BE DELETED
+  // @@index([company_id, item_id])         # ### TO BE DELETED
+  @@index([company_id])
   @@map("surfacetreatment")
 }
 
+model Process {
+  id                          String              @id @default(uuid())
+  // createdAt                   DateTime            @default((now())) // // Joy of Code, PostgreSQL
+  // updatedAt                   DateTime            @updatedAt // // Joy of Code, PostgreSQL
+  company_id                  String
+  process_name                String
+  process_type                String
+  surface_treatment_id        String
+  company                     Company             @relation(references: [id], fields: [company_id], onDelete: Cascade)
+  surfacetreatment            SurfaceTreatment    @relation(references: [id], fields: [surface_treatment_id], onDelete: Cascade)
+  @@index([company_id, surface_treatment_id])
+  @@map("process")
+}
 
 // model ValueStream {
 //   id                          String      @id @default(uuid())

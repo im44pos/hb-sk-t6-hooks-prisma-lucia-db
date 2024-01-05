@@ -13,6 +13,9 @@
 <!-- <h1>Home page</h1><br> -->
 
 <h2>Welcome user: {$page.data.username}</h2>
+<p>From company : {$page.data.company_identifier}</p>
+<!-- <p>From company : {$page.data.company_name}</p> -->
+<p>With status  : {$page.data.state}</p>
 
 <img
   src="Logo_definitief_possibilities_25.webp"
@@ -32,6 +35,8 @@
             <p>
                 {notification.content}
             </p>
+            <!-- <p>{notification.slug}</p> -->
+            <!-- <p>{notification.published}</p> -->
             
             <!-- <form action="?/deleteNotification&id={notification.id}" method="POST"> -->
                 <!-- // // Edit notification -->
@@ -57,6 +62,12 @@
     
     <label for="content"> Content </label>
     <textarea id="content" name="content" rows={5} />
+
+    <label for="slug"> Slug </label>
+    <input type="text" id="slug" name="slug" />
+
+    <label for="published"> Published </label>
+    <input type="checkbox" id="published" name="published" />
     
     <button type="submit">Add Notification</button>
 </form>

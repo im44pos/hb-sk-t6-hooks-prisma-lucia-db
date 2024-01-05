@@ -1,3 +1,10 @@
+<!-- BROWSER: INSPECTOR: CONSOLE: WARNING -->
+<!-- Fout tijdens het ophalen van een originele bron: request failed with status 404
+Bron-URL: http://localhost:5173/view_stl_model/Canvas.svelte -->
+<!-- https://firefox-source-docs.mozilla.org/devtools-user/debugger/source_map_errors/ -->
+<!-- Na: HMR is de WARNING weg met volgende melding: -->
+<!-- [vite] hot updated: /@fs/C:/Users/Frans/GitHub/hb-sk-t6-hooks-prisma-lucia-db/src/lib/(Threlte)/components/STL_MODEL_IMPORT.svelte -->
+
 <script lang="ts">
 	import { Canvas } from '@threlte/core';
 

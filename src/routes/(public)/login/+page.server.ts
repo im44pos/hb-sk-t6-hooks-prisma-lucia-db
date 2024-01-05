@@ -68,7 +68,6 @@ export const actions: Actions = {
             ) {
                 // // user does not exist
                 // // or invalid password
-                console.log(343)
                 return fail(400, {
                     message: "Incorrect username or password"
                 });

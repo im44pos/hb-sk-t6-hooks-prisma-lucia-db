@@ -22,7 +22,7 @@ import type { Actions, PageServerLoad } from "./$types"
 
 
 export const load: PageServerLoad = async ({ locals }) => {
-	// console.log("PageServerLoad @ src/routes/+page.server.ts")
+	// console.log("PageServerLoad @ src/routes/(app)/view_stl_model/+page.server.ts")
 	const session = await locals.auth.validate();
 	// console.log("session :", session)
 	// console.log("session.state :", session?.state)
@@ -35,8 +35,13 @@ export const load: PageServerLoad = async ({ locals }) => {
 	return {
 		userId: session.user.userId,
 		username: session.user.username,
-		articles: await database.article.findMany(),
-		quotation: await database.quotation.findMany(),
+		// name: session.data.name,
+		// email: session.data.email,
+		// userrole: session.data.userrole,
+		// usercompanyidentifier: session.data.usercompanyidentifier,
+		
+		// articles: await database.article.findMany(),
+		// quotation: await database.quotation.findMany(),
 	}
 };
 
@@ -56,12 +61,12 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	logout: async ({ locals }) => {
-		// console.log("Actions @ src/routes/+page.server.ts")
+		// console.log("Actions @ src/routes/(app)/view_stl_model/+page.server.ts")
 		const session = await locals.auth.validate();
 		if (!session) return fail(400);
 		await auth.invalidateSession(session.sessionId); // invalidate session
 		locals.auth.setSession(null); // remove session cookie
-		// console.log("Logout @ src/routes/+page.server.ts session cookie is now deleted.")
+		// console.log("Logout @ src/routes/(app)/view_stl_model/+page.server.ts session cookie is now deleted.")
 		throw redirect(302, "/login"); // redirect to login page
 	},
 }

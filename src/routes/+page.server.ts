@@ -25,6 +25,17 @@ export const load: PageServerLoad = async ({ locals }) => {
 	return {
 		userId: session.user.userId,
 		username: session.user.username,
+		// name: session.data.name,
+		// email: session.data.email,
+		// userrole: session.data.userrole,
+		company_identifier: session.user.company_identifier,
+		state: session.state,
+
+		// company_name: await database.company.findUnique({
+		// 	where: {company_identifier: session.user.company_identifier},
+		// 	select: {company_name}
+		// }),
+		
 		notifications: await database.notification.findMany(),
 		// quotation: await database.quotation.findMany(),
 	}
@@ -80,6 +91,8 @@ export const actions: Actions = {
 		const { title, content } = Object.fromEntries(await request.formData()) as {
 			title: string
 			content: string
+			// slug: string
+			// published: boolean
 		}
 
 		try {
@@ -87,6 +100,8 @@ export const actions: Actions = {
 				data: {
 					title,
 					content,
+					// slug,
+					// published
 				},
 			})
 		} catch (err) {

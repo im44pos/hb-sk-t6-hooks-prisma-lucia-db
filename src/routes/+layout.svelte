@@ -51,7 +51,11 @@
 	</form>
 </nav>
 
-<!-- <header></header> -->
+<header>
+	<h1>
+		hb-sk-t6-hooks-prisma-lucia-db
+	</h1>
+</header>
 
 <main>
 	<slot />
@@ -64,7 +68,7 @@
 
 
 <style>
-	footer {
+	header, footer {
 		text-align: center;
 	}
 </style>

@@ -1,3 +1,7 @@
+<!-- BROWSER: INSPECTOR: CONSOLE: WARNING -->
+<!-- <STL_MODEL_IMPORT> received an unexpected slot "default". -->
+<!-- http://localhost:5173/@fs/C:/Users/Frans/GitHub/hb-sk-t6-hooks-prisma-lucia-db/node_modules/@sveltejs/kit/src/runtime/client/client.js?v=af760e74 client.js:2098:15 -->
+
 <script lang="ts">
     // // Check type safety at Ref.: https://threlte.xyz/docs/learn/advanced/custom-abstractions
     import { useLoader, T } from '@threlte/core'

@@ -1,7 +1,7 @@
 <script lang="ts">
     // Use dayjs for timestamp in filename "https://github.com/metonym/svelte-time#dayjs-export"
     // import { dayjs, Time, svelteTime } from "svelte-time";
-    import Time from "svelte-time";
+    // import Time from "svelte-time";
     
     import { superForm } from "sveltekit-superforms/client"    
     import SuperDebug from "sveltekit-superforms/client/SuperDebug.svelte"
@@ -11,25 +11,9 @@
 
     export let data: PageData;
 
-    // import type { ActionData } from "./$types";
-
     const { form, errors, enhance } = superForm(data.form)
 
-    $: ({ dbcustomers } = data );
-    $: ({ dbmaterials } = data );
-    $: ({ dbcolorsystems } = data );
-    $: ({ dbsurfacetreatments } = data );
-    // $: ({ dbvaluestreams } = data );
     $: ({ quotations } = data );
-
-    // import { page } from "$app/stores";
-    
-
-    // let selected_material: string;
-
-    // let selected_paint_system: string;
-
-    // let selected_value_stream: string;
 
     let model_files: FileList;
     $: if (model_files) {
@@ -71,7 +55,7 @@
     bb_height = 0.501;
     bb_diagonal = 9.999;
 
-    let time_now = new Date()
+    // let time_now = new Date()
 </script>
 
 <!-- // // FOR DEVELOPMENT AND DEBUGGING ONLY -->
