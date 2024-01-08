@@ -2,10 +2,10 @@ import { z } from 'zod';
 
 // // Register Schema
 export const registerSchema = z.object({
-    company_identifier: z.string({required_error: ""})
-    .min(8, {message: "Must be 8 characters"})
-    .max(8, {message: "Must be 8 characters"}),
-	userrole: z.string({ required_error: "Select a value" }).default('not_selected'),
+    // company_identifier: z.string({required_error: ""})
+    // .min(8, {message: "Must be 8 characters"})
+    // .max(8, {message: "Must be 8 characters"}),
+	// userrole: z.string({ required_error: "Select a value" }).default('not_selected'),
 	name: z.string({required_error: ""})
     .max(64, {message: "Name should be less than 65 characters"}),
     username: z.string({required_error: ""})
@@ -48,7 +48,7 @@ export const quotationSchema = z.object({
 	customer: z.coerce.string({ required_error: "Fill in this field" }),
 	quotation_identifier: z.string({ required_error: "Fill in this field" })
 	.min(5 , {message: "Must be at least 5 characters"}),
-	quoataion_description: z.string({ required_error: "Fill in this field"})
+	quotation_description: z.string({ required_error: "Fill in this field"})
 });
 export type QuotationSchema = typeof quotationSchema;
 

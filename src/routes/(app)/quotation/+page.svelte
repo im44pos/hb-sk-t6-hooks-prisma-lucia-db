@@ -24,7 +24,12 @@
     $: ({ dbsurfacetreatments } = data );
     $: ({ quotations } = data );
 
+    console.log("dbcustomers : \n", dbcustomers);
     console.log("dbmaterials : \n", dbmaterials);
+    console.log("company_name :\n", $page.data.company_name);
+
+    $form.company_id = $page.data.company.company_identifier;
+    $form.user_id = $page.data.user_name
 
     // import { page } from "$app/stores";
     
@@ -84,13 +89,18 @@
 
 <form action="?/createQuotation" method="POST" use:enhance>
     <fieldset class="fieldset">
-        <legend class="legend">New Quotation input</legend>
+        <legend class="legend">Quotation input</legend>
         <div class="settings">
-            <label for="company">Company</label>
-            <output id="company" name="company">{$page.data.company_identifier}</output>
-            <!-- <p>From company : {$page.data.company_identifier}</p> -->
+            <!-- <label for="company_identifier">Company</label>
+            <output id="company_identifier" name="company_identifier">{$page.data.company.company_identifier}</output> -->
+            
+            <label for="company_name">Company</label>
+            <output id="company_name" name="company_name">{$page.data.company.company_name}</output>
 
-            <label for="quotation_identifier"> Quotation number </label>
+            <label for="user_name">User name</label>
+            <output id="user_name" name="user_name">{$page.data.user_name}</output>
+            
+            <label for="quotation_identifier"> Quotation number</label>
             <input 
                 type="text" 
                 id="quotation_identifier" 
@@ -99,7 +109,20 @@
                 required/>
             {#if $errors.quotation_identifier}
                 <br>
-	            <small class="label-text-alt text-error"> {$errors.quotation_identifier}</small>
+	            <small class="error">{$errors.quotation_identifier}</small>
+            {/if}
+
+            <label for="quotation_description"> Quotation description </label>
+            <input 
+                type="text" 
+                id="quotation_description" 
+                name="quotation_description" 
+                min="0" 
+                bind:value={$form.quotation_description} 
+                required/>
+            {#if $errors.quotation_description}
+                <br>
+                <small class="error">{$errors.quotation_description}</small>
             {/if}
             <!-- <label for="customer_identifier"> Customer number </label>
             <input type="text" id="customer_identifier" name="customer_identifier" /> -->
@@ -145,30 +168,7 @@
             {/if}
 
             
-            <label for="quotation_identifier"> Quotation number</label>
-            <input 
-                type="text" 
-                id="quotation_identifier" 
-                name="quotation_identifier" 
-                bind:value={$form.quotation_identifier} 
-                required/>
-            {#if $errors.quotation_identifier}
-                <br>
-	            <small class="error">{$errors.quotation_identifier}</small>
-            {/if}
-
-            <label for="quotation_description"> Quotation description </label>
-            <input 
-                type="number" 
-                id="quotation_description" 
-                name="quotation_description" 
-                min="0" 
-                bind:value={$form.quotation_description} 
-                required/>
-            {#if $errors.quotation_description}
-                <br>
-                <small class="error">{$errors.quotation_description}</small>
-            {/if}
+            
         </div>    
     </fieldset>
     <div class="btn-text-center">
@@ -180,7 +180,7 @@
 <br>
 <form action="?/createQuotationItem" method="POST" use:enhance>
     <fieldset class="fieldset">
-        <legend class="legend">New QuotationItem input</legend>
+        <legend class="legend">Quotation Item input</legend>
         <div class="settings">
             <label for="company">Company</label><p></p>
             <!-- <output id="company" name="company">{$page.data.company_identifier}</output> -->

@@ -48,8 +48,8 @@ model User {
   id                          String      @id @default(uuid()) // "uuid" requires the "String" type
   // createdAt                   DateTime    @default((now())) // // Joy of Code, PostgreSQL
   // updatedAt                   DateTime    @updatedAt // // Joy of Code, PostgreSQL
-  // company_identifier          String
-  // role_id                     String      // @default("Sales")
+  company_identifier          String
+  role_id                     String      // @default("Sales")
   name                        String?
   username                    String      @unique
   email                       String      @unique
@@ -57,17 +57,17 @@ model User {
   key                         Key[]
   quotation                   Quotation[]
   quotationitem               QuotationItem[]
-  // company                     Company     @relation(references: [company_identifier], fields: [company_identifier], onDelete: Cascade)
-  // role                        Role        @relation(references: [id], fields: [role_id], onDelete: Cascade)
-  // @@index([role_id])
-  // @@index([company_identifier, role_id])
+  company                     Company     @relation(references: [company_identifier], fields: [company_identifier], onDelete: Cascade)
+  role                        Role        @relation(references: [id], fields: [role_id], onDelete: Cascade)
+  // @@index([company_id, role_id])
+  @@index([company_identifier, role_id])
   @@map("user")
 }
 
 model Role {
   id                          String      @id @default(uuid())
   role_name                   String      // // sales, planning, production, purchase, management
-  // user                        User[]
+  user                        User[]
   @@map("role")
 }
 
@@ -103,17 +103,17 @@ model Key {
 
 // // Customers of QWisioN, where users need a connection to the company
 model Company {
-  id                        String        @id @default(uuid())
-  // createdAt                 DateTime     @default((now())) // // Joy of Code, PostgreSQL
-  // updatedAt                 DateTime     @updatedAt // // Joy of Code, PostgreSQL
+  id                        String    @id @default(uuid())
+  // createdAt                 DateTime  @default((now())) // // Joy of Code, PostgreSQL
+  // updatedAt                 DateTime  @updatedAt // // Joy of Code, PostgreSQL
   company_name              String
-  company_identifier        String        @unique   // // 8-digit number "08mmdd.." NOTE: if "8" increases on yearly basis with decimal numbering then, from 2116 require 9-digit until 3016
+  company_identifier        String    @unique   // // 8-digit number "08mmdd.." NOTE: if "8" increases on yearly basis with decimal numbering then, from 2116 require 9-digit until 3016
   company_city              String
-  company_country           String        //  State
-  company_county            String?       //  Provincie / Land
+  company_country           String    //  State
+  company_county            String?   //  Provincie / Land
   company_continent         String?
-  company_max_users         Int           @default(2)
-  // user                      User[]        // Relation to be configured !!!
+  company_max_users         Int       @default(2)
+  user                      User[]    // Relation to be configured !!!
   surfacetreatment          SurfaceTreatment[]
   process                   Process[]
   productionline            ProductionLine[]

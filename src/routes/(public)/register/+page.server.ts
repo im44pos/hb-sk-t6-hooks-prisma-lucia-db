@@ -11,7 +11,7 @@ import { registerSchema } from "$lib/zod/schemas";
 
 
 export const load: PageServerLoad = async ({ locals, request }) => {
-    // console.log("PageServerLoad @ src/routes/(public)/register/+page.server.ts")
+    // console.log("PageServerLoad @ src/routes/(public)/register/+page.server.ts load")
     const session = await locals.auth.validate();
     if (session) {
         throw redirect(302, "/")
@@ -20,26 +20,27 @@ export const load: PageServerLoad = async ({ locals, request }) => {
     const form = await superValidate(request, registerSchema)
 
     return {
-        form,
+        // form,
         // userId: session.user.userId,
 		// username: session.user.username,
 		// name: session.data.name,
 		// email: session.data.email,
 		// userrole: session.data.userrole,
-		// usercompanyidentifier: session.data.usercompanyidentifier,
+		// usercompany_identifier: session.data.usercompany_identifier,
 
 		dbroles: await database.role.findMany(),
+        form,
     }; // ???
 };
 
 
 export const actions: Actions = {
     default: async ({ request, locals }) => {
-        console.log("Actions @ src/routes/register/+page.server.ts")
+        console.log("Actions @ src/routes/register/+page.server.ts default")
         const formData = await request.formData();
         // const password = formData.get('password')
         const form = await superValidate(formData, registerSchema);
-        console.log("form : " + form)
+        console.log("form.data : " + form.data)
 
         if (!form.valid) {
 			return fail(400, {
@@ -60,16 +61,18 @@ export const actions: Actions = {
         try {
             const user = await auth.createUser({
                 key: {
-                    providerId: "username", // auth method
-                    providerUserId: form.data.username.toLowerCase(), // unique id when using "username" auth method
+                    providerId: "username",                              // auth method
+                    providerUserId: form.data.username.toLowerCase(),    // unique id when using "username" auth method
+                    // providerId: "email",                                // auth method
+                    // providerUserId: form.data.email.toLowerCase(),      // unique id when using "username" auth method
                     password: form.data.password // Hashed by Lucia
                 },
                 attributes: {
-                    username: form.data.username,
-                    name: form.data.name,
-                    email: form.data.email,
+                    // company_identifier: form.data.company_identifier,
                     // userrole: form.data.userrole,
-                    company_identifier: form.data.company_identifier,
+                    name: form.data.name,
+                    username: form.data.username,
+                    email: form.data.email,
                 }
             });
             // // DO NOT AUTOMATICALLY LOGIN AFTER CREATING AN ACCOUNT ! ! !
@@ -81,7 +84,9 @@ export const actions: Actions = {
         } catch (e) {
             // // this part depends on the database used
             // check for unique constraint error in user table
-            // console.error(e) // // For development only
+            console.log("\n\nSTART catch (e) error : \n") // // For development only
+            console.error(e)                              // // For development only
+            console.log("\nEND catch (e) error : \n\n")   // // For development only
 
             if (
                 e instanceof LuciaError 

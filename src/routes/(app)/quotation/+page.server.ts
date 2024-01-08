@@ -8,10 +8,10 @@ import { setError, superValidate } from "sveltekit-superforms/server"
 
 import type { Actions, PageServerLoad } from "./$types"
 
-import { quotationSchema } from "$lib/zod/schemas";
+import { quotationItemSchema, quotationSchema } from "$lib/zod/schemas";
 
 export const load: PageServerLoad = async ({ locals, request }) => {
-	// console.log("PageServerLoad @ src/routes/(app)/quotation/+page.server.ts")
+	// console.log("PageServerLoad @ src/routes/(app)/quotation/+page.server.ts load")
 	const session = await locals.auth.validate();
 	// console.log("session :", session)
 	// console.log("session.state :", session?.state)
@@ -29,20 +29,23 @@ export const load: PageServerLoad = async ({ locals, request }) => {
 		userId: session.user.userId,
 		company_identifier: session.user.company_identifier,
 		// userrole: session.user.userrole,
-		// name: session.user.name,
+		user_name: session.user.name,
 		username: session.user.username,
-		// email: session.user.email,
+		email: session.user.email,
 		
-		// company_name: await database.company.findUnique({
-		// 	where: {company_identifier: session.user.company_identifier},
-		// 	select: {company_name}
-		// }),
+		company: await database.company.findUnique({
+			where: {company_identifier: session.user.company_identifier},
+		}),
 		
 		dbcustomers: await database.customer.findMany(),
 		dbmaterials: await database.material.findMany(),
 		dbcolorsystems: await database.colorSystem.findMany(),
 		dbsurfacetreatments: await database.surfaceTreatment.findMany(),
+
 		quotations: await database.quotation.findMany(),
+		// quotations: await database.quotation.findMany({
+		// 	where: {company_identifier: session.user.company_identifier},
+		// }),
 	}
 };
 
@@ -62,7 +65,7 @@ export const load: PageServerLoad = async ({ locals, request }) => {
 
 export const actions: Actions = {
 	logout: async ({ locals }) => {
-		// console.log("Actions @ src/routes/(app)/quotation/+page.server.ts")
+		// console.log("Actions @ src/routes/(app)/quotation/+page.server.ts logout")
 		const session = await locals.auth.validate();
 		if (!session) return fail(400);
 		await auth.invalidateSession(session.sessionId); // invalidate session
@@ -72,7 +75,45 @@ export const actions: Actions = {
 	},
 
 	createQuotation: async ({ request }) => {
-		console.log("Actions @ routes/(app)/quotation/+page.server.ts")
+		console.log("Actions @ routes/(app)/quotation/+page.server.ts createQuotation");
+		// const formData = await request.formData();
+		const formData = Object.fromEntries(await request.formData());
+		// // FOR DEVELOPMENT AND DEBUGGING ONLY
+		console.log("This is the formData content, before Validation :\n ", formData);
+
+		const form = await superValidate(formData, quotationSchema);
+		// // FOR DEVELOPMENT AND DEBUGGING ONLY
+		console.log("This is the form content, after Validation :\n ", form);
+
+		if (!form.valid) {
+			return fail(400, {
+				form
+			})
+		}
+		
+		try {
+			const quotation = await database.quotation.create({
+				data: {
+					company_id:					form.data.company_id,
+					user_id:					form.data.user_id,
+					customer_id: 				form.data.customer_id, // // Argument `customer_id`: Invalid value provided. Expected Int or Null, provided String.
+					quotation_identifier: 		form.data.quotation_identifier, // Quotation "number"
+					quotation_description: 		form.data.quotation_description,
+				},
+			})
+		} catch (err) {
+			console.error(err)
+			return fail(500, { message: "Could not create the quotation." })
+		}
+
+		return {
+			form, 
+			status: 201,
+		}
+	},
+
+	createQuotationItem: async ({ request }) => {
+		console.log("Actions @ routes/(app)/quotation/+page.server.ts createQuotationItem")
 		const formData = await request.formData();
 		// const formData = Object.fromEntries(await request.formData());
 		// // FOR DEVELOPMENT AND DEBUGGING ONLY
@@ -163,8 +204,8 @@ export const actions: Actions = {
 			const quotation = await database.quotation.create({
 				// file = formData.get('model_3d')
 				data: {
-					company_id:					session.user.company_id,
-					user_id:					session.user.userId,
+					// company_id:					session.user.company_id,
+					// user_id:					session.user.userId,
 					customer_id: 				form.data.customer_id, // // Argument `customer_id`: Invalid value provided. Expected Int or Null, provided String.
 					quotation_identifier: 		form.data.quotation_identifier, // Quotation "number"
 					quotation_description: 		form.data.quotation_description,

@@ -32,16 +32,17 @@
 		<div class="settings">
 			<label for="username">Username</label>
 			<input type="text" id="username" name="username" required />
+			<!-- <input type="text" id="username" name="username" /> -->
 			{#if $errors.username}
 				<br>
 				<small class="label-text-alt text-error"> {$errors.username}</small>
 			{/if}
 			<br>
 
-			<!-- <label for="useremail">E-mail address</label> -->
-			<!-- <input type="email" id="useremail" name="useremail" required /> -->
-			<!-- <input type="email" id="useremail" name="useremail" />
-			{#if $errors.email}
+			<!-- <label for="useremail">E-mail address</label>
+			<input type="email" id="useremail" name="useremail" required /> -->
+			<!-- <input type="email" id="useremail" name="useremail" /> -->
+			<!-- {#if $errors.email}
 				<br>
 				<small class="label-text-alt text-error"> {$errors.email}</small>
 			{/if}

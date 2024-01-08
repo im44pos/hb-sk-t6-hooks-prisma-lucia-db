@@ -38,19 +38,18 @@ role -->
 	<fieldset class="fieldset">
 		<legend class="legend">Sign Up</legend>
 		<div class="settings">
-			<label for="company_identifier">Company number</label>
+			<!-- <label for="company_identifier">Company number</label>
 			<input type="text" id="company_identifier" name="company_identifier" required />
 			{#if $errors.company_identifier}
 				<br>
 				<small class="label-text-alt text-error"> {$errors.company_identifier}</small>
 			{/if}
-			<br/>
+			<br/> -->
 		
-			<label for="userrole">Role</label>
+			<!-- <label for="userrole">Role</label>
 			<select 
 				id = "userrole"
 				name = "userrole"
-				bind:value = {$form.userrole}
 				required
 			>
 				{#if placeholder}
@@ -66,7 +65,7 @@ role -->
 				<br>
 				<small class="error">{$errors.userrole}</small>
 			{/if}
-			<br/>
+			<br/> -->
 
 			<label for="name">Name</label>
 			<input type="text" id="name" name="name" required />
@@ -105,7 +104,7 @@ role -->
 	</fieldset>
 </form>
 {#if forms?.message}
-	<p class="error">{forms.message}</p>
+	<p class="error">{"forms?.message class='error'" + forms.message}</p>
 {/if}
 <!-- Go to route (public)/login, to sign in with an account. -->
 <!-- <p>Already have an account? <a href="/login">Login</a></p> -->
