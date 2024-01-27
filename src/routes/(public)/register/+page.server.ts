@@ -69,10 +69,10 @@ export const actions: Actions = {
                 },
                 attributes: {
                     // company_identifier: form.data.company_identifier,
-                    // userrole: form.data.userrole,
+                    userrole: form.data.userrole,
                     name: form.data.name,
                     username: form.data.username,
-                    email: form.data.email,
+                    user_email: form.data.user_email,
                 }
             });
             // // DO NOT AUTOMATICALLY LOGIN AFTER CREATING AN ACCOUNT ! ! !

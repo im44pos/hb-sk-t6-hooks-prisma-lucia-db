@@ -11,13 +11,20 @@ Bron-URL: http://localhost:5173/view_stl_model/Canvas.svelte -->
 	import FrontView from './FrontView.svelte';
 	import LeftSideView from './LeftSideView.svelte';
 
-	import Config from './Config.svelte';
+	// import Config from './Config.svelte';
+	import ConfigTP from './ConfigTP.svelte';
+	// import Configuration from './Configuration.svelte';
+	import ConfigSTPUI from '$lib/Layout/TweakPane/ConfigSTPUI.svelte';
+	
 
 	let object_mass = 88_888
 </script>
 
 <section class="container">
-	<Config />
+	<!-- <Config /> -->
+	<!-- <Configuration /> -->
+	<!-- <ConfigTP /> -->
+	<ConfigSTPUI />
 	<section class="views">
 		<section class="left">
 			<p>Front View</p>

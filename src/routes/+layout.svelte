@@ -41,6 +41,8 @@
 			
 			<a href="/quotation" aria-current={$page.url.pathname === '/quotation'}> Quotation </a>
 			
+			<a href="/test_tweakpane" aria-current={$page.url.pathname === '/test_tweakpane'}> Test Tweakpane </a>
+
 			<a href="/view_stl_model" aria-current={$page.url.pathname === '/view_stl_model'}> STL Model </a>
 			<a href="/xy_config" aria-current={$page.url.pathname === '/xy_config'}> XY Config </a>
 			<a href="/xyz_config" aria-current={$page.url.pathname === '/xyz_config'}> XYZ Config </a>

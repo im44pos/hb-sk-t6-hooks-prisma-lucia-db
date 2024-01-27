@@ -38,15 +38,15 @@ role -->
 	<fieldset class="fieldset">
 		<legend class="legend">Sign Up</legend>
 		<div class="settings">
-			<!-- <label for="company_identifier">Company number</label>
+			<label for="company_identifier">Company number</label>
 			<input type="text" id="company_identifier" name="company_identifier" required />
 			{#if $errors.company_identifier}
 				<br>
 				<small class="label-text-alt text-error"> {$errors.company_identifier}</small>
 			{/if}
-			<br/> -->
+			<br/>
 		
-			<!-- <label for="userrole">Role</label>
+			<label for="userrole">Role</label>
 			<select 
 				id = "userrole"
 				name = "userrole"
@@ -65,7 +65,7 @@ role -->
 				<br>
 				<small class="error">{$errors.userrole}</small>
 			{/if}
-			<br/> -->
+			<br/>
 
 			<label for="name">Name</label>
 			<input type="text" id="name" name="name" required />
@@ -84,9 +84,9 @@ role -->
 		
 			<label for="email">E-mail</label>
 			<input type="text" id="email" name="email" required />
-			{#if $errors.email}
+			{#if $errors.user_email}
 				<br>
-				<small class="label-text-alt text-error"> {$errors.email}</small>
+				<small class="label-text-alt text-error"> {$errors.user_email}</small>
 			{/if}
 			<br/>
 		
@@ -96,6 +96,18 @@ role -->
 				<br>
 				<small class="label-text-alt text-error"> {$errors.password}</small>
 			{/if}
+			<br/>
+
+			<label for="passwordconfirm">Confirm Password</label>
+			<input type="password" id="passwordconfirm" name="passwordconfirm" required value="" />
+			{#if $errors.passwordconfirm}
+				<br>
+				<small class="label-text-alt text-error"> {$errors.passwordconfirm}</small>
+			{/if}
+			<br/>
+
+			<input type="checkbox" id="termsconditions" name="termsconditions" required />
+			I accept the terms and conditions
 			<br/>
 			
 			<p></p><p></p>

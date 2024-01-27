@@ -7,21 +7,26 @@ import type {
     Pane, 
     SliderBladeApi 
 } from 'tweakpane'
-import * as tweakpaneDefault from 'tweakpane'
+import { Pane as defaultPane } from 'tweakpane'
+// import * as tweakpaneDefault from 'tweakpane'
 import type { PaneConfig } from 'tweakpane/dist/types/pane/pane-config'
 
 import * as tweakpaneCore from '@tweakpane/core'
 
-const tp = (tweakpaneDefault as any).default ?? tweakpaneDefault
-const tpC = ((tweakpaneCore as any).default ?? tweakpaneCore) as any
+// const tp = (tweakpaneDefault as any).default ?? tweakpaneDefault
+// const tpC = ((tweakpaneCore as any).default ?? tweakpaneCore) as any
+// const tp = (tweakpaneDefault).default ?? tweakpaneDefault
+// const tpC = ((tweakpaneCore as any).default ?? tweakpaneCore) as any
 
-const className = tpC.ClassName('ph')
+// const className = tpC.ClassName('ph')
 
 export const useTweakpane = (config?: Omit<PaneConfig, 'container' | 'document'>) => {
     if (typeof window === 'undefined') throw new Error('useTweakpane can only be used in the browser')
     let disposed = false
 
-    const pane = new tp.Pane(config) as Pane;
+    // const pane = new tp.Pane(config) as Pane;
+    // const pane = new tweakpaneDefault.Pane(config) as Pane;
+    const pane = new defaultPane(config) as Pane;
 
     const unsubscriptions = new Set<() => void>()
 
@@ -36,33 +41,33 @@ export const useTweakpane = (config?: Omit<PaneConfig, 'container' | 'document'>
         // // https://cocopon.github.io/tweakpane/theming/#builder
         node.style.setProperty('.tp-tbiv_t', 'position: relative') // // Temporary to fix bug. Don't see differnce.
 
-        node.style.setProperty('--tp-base-background-color', 'hsla(0, 0%, 95%, 1.00)') // grey
-        node.style.setProperty('--tp-base-shadow-color', 'hsla(0, 0%, 0%, 0.20)')
-        // button and list
-        node.style.setProperty('--tp-button-background-color', 'hsla(0, 0%, 100%, 1.00)') // white
-        node.style.setProperty('--tp-button-background-color-active', 'hsla(0, 0%, 85%, 1.00)')
-        node.style.setProperty('--tp-button-background-color-focus', 'hsla(0, 0%, 80%, 1.00)')
-        node.style.setProperty('--tp-button-background-color-hover', 'hsla(0, 0%, 75%, 1.00)')
-        node.style.setProperty('--tp-button-foreground-color', 'hsla(0, 0%, 0%, 1.00)') // black
+        // node.style.setProperty('--tp-base-background-color', 'hsla(0, 0%, 95%, 1.00)') // grey
+        // node.style.setProperty('--tp-base-shadow-color', 'hsla(0, 0%, 0%, 0.20)')
+        // // button and list
+        // node.style.setProperty('--tp-button-background-color', 'hsla(0, 0%, 100%, 1.00)') // white
+        // node.style.setProperty('--tp-button-background-color-active', 'hsla(0, 0%, 85%, 1.00)')
+        // node.style.setProperty('--tp-button-background-color-focus', 'hsla(0, 0%, 80%, 1.00)')
+        // node.style.setProperty('--tp-button-background-color-hover', 'hsla(0, 0%, 75%, 1.00)')
+        // node.style.setProperty('--tp-button-foreground-color', 'hsla(0, 0%, 0%, 1.00)') // black
         
-        node.style.setProperty('--tp-container-background-color', 'hsla(0, 0%, 0%, 1.00)') // black
-        node.style.setProperty('--tp-container-background-color-active', 'hsla(0, 0%, 25%, 1.00)')
-        node.style.setProperty('--tp-container-background-color-focus', 'hsla(0, 0%, 20%, 1.00)')
-        node.style.setProperty('--tp-container-background-color-hover', 'hsla(0, 0%, 15%, 1.00)')
-        node.style.setProperty('--tp-container-foreground-color', 'hsla(0, 0%, 100%, 1.00)') // white
-        // // Lines between UI items (not noticable in current 20231111 ui design)
-        node.style.setProperty('--tp-groove-foreground-color', 'hsla(0, 0%, 0%, 1.00)') // black
-        // // input, slider and checkbox
-        node.style.setProperty('--tp-input-background-color', 'hsla(0, 0%, 0%, 1.00)') // black
-        node.style.setProperty('--tp-input-background-color-active', 'hsla(0, 0%, 15%, 1.00)')
-        node.style.setProperty('--tp-input-background-color-focus', 'hsla(0, 0%, 10%, 1.00)')
-        node.style.setProperty('--tp-input-background-color-hover', 'hsla(0, 0%, 5%, 1.00)')
-        node.style.setProperty('--tp-input-foreground-color', 'hsla(120, 100%, 50%, 1.00)') // green
-        // // Text
-        node.style.setProperty('--tp-label-foreground-color', 'hsla(0, 0%, 0%, 1.00)') // black
+        // node.style.setProperty('--tp-container-background-color', 'hsla(0, 0%, 0%, 1.00)') // black
+        // node.style.setProperty('--tp-container-background-color-active', 'hsla(0, 0%, 25%, 1.00)')
+        // node.style.setProperty('--tp-container-background-color-focus', 'hsla(0, 0%, 20%, 1.00)')
+        // node.style.setProperty('--tp-container-background-color-hover', 'hsla(0, 0%, 15%, 1.00)')
+        // node.style.setProperty('--tp-container-foreground-color', 'hsla(0, 0%, 100%, 1.00)') // white
+        // // // Lines between UI items (not noticable in current 20231111 ui design)
+        // node.style.setProperty('--tp-groove-foreground-color', 'hsla(0, 0%, 0%, 1.00)') // black
+        // // // input, slider and checkbox
+        // node.style.setProperty('--tp-input-background-color', 'hsla(0, 0%, 0%, 1.00)') // black
+        // node.style.setProperty('--tp-input-background-color-active', 'hsla(0, 0%, 15%, 1.00)')
+        // node.style.setProperty('--tp-input-background-color-focus', 'hsla(0, 0%, 10%, 1.00)')
+        // node.style.setProperty('--tp-input-background-color-hover', 'hsla(0, 0%, 5%, 1.00)')
+        // node.style.setProperty('--tp-input-foreground-color', 'hsla(120, 100%, 50%, 1.00)') // green
+        // // // Text
+        // node.style.setProperty('--tp-label-foreground-color', 'hsla(0, 0%, 0%, 1.00)') // black
         
-        node.style.setProperty('--tp-monitor-background-color', 'hsla(0, 0%, 0%, 1.00)') // black
-        node.style.setProperty('--tp-monitor-foreground-color', 'hsla(0, 0%, 100%, 1.00)') // white
+        // node.style.setProperty('--tp-monitor-background-color', 'hsla(0, 0%, 0%, 1.00)') // black
+        // node.style.setProperty('--tp-monitor-foreground-color', 'hsla(0, 0%, 100%, 1.00)') // white
 
         return {
             destroy() {
@@ -73,6 +78,7 @@ export const useTweakpane = (config?: Omit<PaneConfig, 'container' | 'document'>
             }
         }
     }
+    
 
     const addButton = (options: {
         title: string

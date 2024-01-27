@@ -3,13 +3,16 @@
 
 	import FrontView from './FrontView.svelte';
 	import LeftSideView from './LeftSideView.svelte';
+
 	import Config from './Config.svelte';
+	import XYConfigSTPUI from '$lib/Layout/TweakPane/XYConfigSTPUI.svelte';
 
 	let xy_object_mass = 99_999;
 </script>
 
 <section class="container">
-	<Config />
+	<!-- <Config /> -->
+	<XYConfigSTPUI />
 	<section class="views">
 		<section class="left">
 			<p>Front View</p>

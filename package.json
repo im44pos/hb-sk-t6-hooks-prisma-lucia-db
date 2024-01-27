@@ -45,6 +45,7 @@
     "@lucia-auth/adapter-prisma": "^3.0.2",
     "@prisma/client": "^5.7.1",
     "lucia": "^2.7.6",
+    "svelte-tweakpane-ui": "^1.2.0",
     "tweakpane": "^4.0.3"
   }
 }

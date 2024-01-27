@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import { invalidate, invalidateAll } from '$app/navigation';
 	import { useTweakpane } from '$lib/utils/useTweakpane.ts';
 	import { product_color_hex, bbox_color_hex, bbox_opacity } from '$lib/states/view_stl_model_state';
@@ -34,11 +34,20 @@
 		parent: viewConfigTab.pages[0], // Product
 	});
 
-	const boundingboxFolder = viewConfigTab.pages[1].addFolder({
-		title: 'Bounding Box Color',
-		expanded: false
-	});
+	// const boundingboxFolder = viewConfigTab.pages[1].addFolder({
+	// 	title: 'Bounding Box Color',
+	// 	expanded: false
+	// });
 
+	addInput({
+		label: 'Opacity',
+		store: bbox_opacity,
+		value: $bbox_opacity,
+		params: { min: 0.0, max: 1.0, step: 0.005 },
+		// parent: boundingboxFolder,
+		parent: viewConfigTab.pages[1], // Bounding Box
+	});
+	
 	addInput({
 		label: 'Bounding Box Color',
 		store: bbox_color_hex,
@@ -47,18 +56,10 @@
 			picker: 'inline',
 			expanded: true
 		},
-		parent: boundingboxFolder,
-		// parent: viewConfigTab.pages[1], // Bounding Box
+		// parent: boundingboxFolder,
+		parent: viewConfigTab.pages[1], // Bounding Box
 	});
-
-	addInput({
-		label: 'Opacity',
-		store: bbox_opacity,
-		value: $bbox_opacity,
-		params: { min: 0.0, max: 1.0, step: 0.005 },
-		parent: boundingboxFolder,
-	});
-
+	
 	// const materialFolder = addFolder({
 	// 	title: 'Material',
 	// 	expanded: false
@@ -96,4 +97,4 @@
 	/* .tp-rotv {
 	  font-size: 16px;
 	} */
-  </style>
+  </style> -->
